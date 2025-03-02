@@ -33,11 +33,23 @@ const reduce = (fn, initialValue, iterable) => {
   let result = !iterable ? iterator.next().value : initialValue;
 
   for (const item of iterator) {
-    console.log(item);
     result = fn(result, item);
   }
   return result;
 };
 
 const sum = reduce((acc, cur) => acc + cur, nums); // 15
+```
+
+reduce 함수의 활용
+
+```ts
+const products = [
+  { name: '반팔티', price: 15_000 },
+  { name: '긴팔티', price: 20_000 },
+  { name: '핸드폰케이스', price: 15_000 },
+  { name: '후드티', price: 30_000 },
+  { name: '바지', price: 25_000 },
+];
+reduce((acc, cur) => acc + cur.price, 0, products);
 ```
