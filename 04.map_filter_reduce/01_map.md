@@ -46,3 +46,38 @@ const names = map((prod) => prod.name, products);
 
 const prices = map((prod) => prod.price, products);
 ```
+
+## 이터러블 프로토콜을 따른 map의 다형성
+
+NodeList는 이터러블 프로토콜을 따르고 있기 때문에 map 함수를 적용할 수 있게 된다.
+
+```ts
+const elements = document.querySelectorAll('*');
+// Error
+elements.map((el) => el.nodeName); // error: map is not a function
+
+// map 함수를 적용
+map((el) => el.nodeName, elements);
+```
+
+제너레이터도 이터러블 프로토콜을 따르고 있으므로 map 함수를 사용할 수 있다.
+
+```ts
+function* gen() {
+  yield 1;
+  yield 2;
+  yield 3;
+  return 100;
+}
+map((a) => a * a, gen()); // 1 -> 4 -> 9
+```
+
+이터러블 프로토콜을 따랐을 때의 조합성
+
+```ts
+const m = new Map();
+m.set('a', 10);
+m.set('b', 20);
+map(([key, value]) => [key, value * 2], m); // [["a", 20], ["b", 40]]
+new Map(map(([key, value]) => [key, value * 2], m));
+```
