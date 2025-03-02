@@ -45,4 +45,14 @@ const under20000 = filter((prod) => prod.price < 20000, products);
 const over20000 = filter((prod) => prod.price >= 20000, products);
 
 const evens = filter((item) => item % 2 === 0, [1, 2, 3, 4]);
+const odds = filter(
+  (item) => item % 2 === 1,
+  (function* () {
+    yield 1;
+    yield 2;
+    yield 3;
+    yield 4;
+    yield 5;
+  })(),
+);
 ```
