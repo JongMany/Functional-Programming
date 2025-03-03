@@ -65,3 +65,30 @@ const getQueryString = pipe(
   join('&'),
 );
 ```
+
+### take, find
+
+```ts
+const users = [
+  { age: 32 },
+  { age: 31 },
+  { age: 37 },
+  { age: 28 },
+  { age: 25 },
+  { age: 32 },
+  { age: 31 },
+  { age: 37 },
+];
+
+const find = curry((fn, iterable) =>
+  go(iterable, L.filter(f), take(1), ([a]) => a),
+);
+console.log(find((user) => user.age <= 30)(users));
+
+go(
+  users,
+  L.map((u) => u.age),
+  find((age) => age < 30),
+  log,
+);
+```
