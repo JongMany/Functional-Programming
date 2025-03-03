@@ -12,14 +12,56 @@ const getQueryString = (obj) =>
     obj,
     Object.entries,
     map(([k, v]) => `${k}=${v}`),
-    reduce((acc, cur) => `${a}&${b}`),
+    reduce((acc, cur) => `${acc}&${cur}`),
   );
 
 const getQueryString = pipe(
   Object.entries,
   map(([k, v]) => `${k}=${v}`),
-  reduce((acc, cur) => `${a}&${b}`),
+  reduce((acc, cur) => `${acc}&${cur}`),
 );
 
 console.log(queryString({ limit: 10, offset: 10, type: 'notice' }));
+```
+
+Join 함수로 리팩토링하기
+
+```ts
+const join = curry((separator = ',', iterable) => {
+  reduce((acc, cur) => `${acc}${separator}${cur}`, iterator);
+});
+
+const getQueryString = pipe(
+  Object.entries,
+  map(([k, v]) => `${k}=${v}`),
+  join('&'),
+);
+
+function* a() {
+  yield 10;
+  yield 20;
+  yield 30;
+  yield 40;
+}
+join(',', a()); // 10,20,30,40
+```
+
+L.map을 활용
+
+```ts
+L.entries = function* (obj){
+  for (Const k in obj) {
+    yield [k,obj[k]];
+  }
+}
+
+const join = curry((separator = ',', iterable) => {
+  reduce((acc, cur) => `${acc}${separator}${cur}`, iterator);
+});
+
+const getQueryString = pipe(
+  L.entries,
+  L.map(([k, v]) => `${k}=${v}`),
+  join('&'),
+);
 ```
