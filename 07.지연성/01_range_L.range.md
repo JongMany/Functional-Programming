@@ -57,3 +57,18 @@ const list = L.range(4);
 console.log(list.next()); // "L.range" 0 -> {value: 0, done: false}
 console.log(list.next()); // "L.range" 1 -> {value: 1, done: false}
 ```
+
+## range와 L.range 테스트
+
+```ts
+const test(name, time, f) {
+  console.time(name);
+  while(time--) {
+    f();
+  }
+  console.timeEnd(name);
+}
+
+test('range', 10, () => reduce(add, range(1_000_000)))
+test('L.range', 10, () => reduce(add, L.range(1_000_000)))
+```
